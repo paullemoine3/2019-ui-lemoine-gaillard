@@ -1,5 +1,3 @@
-open Register;
-
 type state = {
   login: string,
   password: string,
@@ -7,8 +5,7 @@ type state = {
 
 type action =
   | UpdateLogin(string)
-  | UpdatePassword(string)
-  | Registe;
+  | UpdatePassword(string);
 
 let component = ReasonReact.reducerComponent("Login");
 
@@ -21,7 +18,6 @@ let make = _children => {
     switch (action) {
     | UpdateLogin(login) => ReasonReact.Update({...state, login})
     | UpdatePassword(password) => ReasonReact.Update({...state, password})
-    | Register => ReasonReact.Router.watchUrl("/register")
     },
   render: _self =>
     <div>
