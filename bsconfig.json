@@ -1,8 +1,7 @@
 {
   "name": "age-of-reason",
   "version": "0.1.0",
-  "sources": [
-    {
+  "sources": [{
       "dir": "src",
       "subdirs": true
     },
@@ -16,7 +15,9 @@
     "in-source": true
   },
   "suffix": ".bs.js",
-  "reason": { "react-jsx": 2 },
+  "reason": {
+    "react-jsx": 2
+  },
   "bs-dependencies": ["reason-react"],
   "bs-dev-dependencies": ["@glennsl/bs-jest"],
   "warnings": {

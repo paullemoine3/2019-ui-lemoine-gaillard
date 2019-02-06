@@ -7,7 +7,9 @@ type action =
 
 type state = {score};
 
-let component = ReasonReact.reducerComponent("Score");
+ReasonReact.Router.push("/register");
+
+let component = ReasonReact.reducerComponent("Register");
 
 let make = _children => {
   ...component,
