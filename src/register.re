@@ -1,46 +1,54 @@
-open Tennis;
+type state = {
+  login: string,
+  password: string,
+};
 
 type action =
-  | ScorePlayerOne
-  | ScorePlayerTwo
-  | NewGame;
-
-type state = {score};
-
-ReasonReact.Router.push("/register");
+  | UpdateLogin(string)
+  | UpdatePassword(string);
 
 let component = ReasonReact.reducerComponent("Register");
 
 let make = _children => {
   ...component,
-  initialState: () => {score: newGame},
+  initialState: () => {login: "", password: ""},
   reducer: (action, state) =>
     switch (action) {
-    | ScorePlayerOne =>
-      ReasonReact.Update({score: score(state.score, PlayerOne)})
-    | ScorePlayerTwo =>
-      ReasonReact.Update({score: score(state.score, PlayerTwo)})
-    | NewGame => ReasonReact.Update({score: newGame})
+    | UpdateLogin(login) => ReasonReact.Update({...state, login})
+    | UpdatePassword(password) => ReasonReact.Update({...state, password})
     },
-  render: self =>
+  render: _self =>
     <div>
-      <h1> {ReasonReact.string("Tennis Game Counter")} </h1>
-      <h2> {string_of_score(self.state.score) |> ReasonReact.string} </h2>
-      {switch (self.state.score) {
-       | Game(_) =>
-         <button onClick={_ => self.send(NewGame)}>
-           {ReasonReact.string("New Game")}
-         </button>
-       | _ =>
-         <div>
-           {ReasonReact.string("Who scored ?")}
-           <button onClick={_ => self.send(ScorePlayerOne)}>
-             {ReasonReact.string(" Player 1 ")}
-           </button>
-           <button onClick={_ => self.send(ScorePlayerTwo)}>
-             {ReasonReact.string(" Player 2 ")}
-           </button>
-         </div>
-       }}
+      <h1> {ReasonReact.string("Page d'enregistrement")} </h1>
+      <form>
+        <label>
+          {ReasonReact.string("Login")}
+          <input
+            type_="text"
+            name="login"
+            value={_self.state.login}
+            onChange={event =>
+              _self.send(UpdateLogin(ReactEvent.Form.target(event)##value))
+            }
+          />
+        </label>
+        <br />
+        <label>
+          {ReasonReact.string("mdp")}
+          <input
+            type_="text"
+            name="mdp"
+            value={_self.state.password}
+            onChange={event =>
+              _self.send(
+                UpdatePassword(ReactEvent.Form.target(event)##value),
+              )
+            }
+          />
+        </label>
+        <br />
+      </form>
+      <div> {ReasonReact.string(_self.state.login)} </div>
+      <div> {ReasonReact.string(_self.state.password)} </div>
     </div>,
 };
