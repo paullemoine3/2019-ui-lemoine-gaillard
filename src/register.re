@@ -65,7 +65,7 @@ let make = _children => {
           ),
       )
     | RegisterUsers =>
-      ReasonReact.SideEffects(_ => ReasonReact.Router.push("login"))
+      ReasonReact.SideEffects(_ => ReasonReact.Router.push("score"))
     | RegisterUsersFailed =>
       ReasonReact.SideEffects(_ => ReasonReact.Router.push("errorRegister"))
     | _ => ReasonReact.Update(state)

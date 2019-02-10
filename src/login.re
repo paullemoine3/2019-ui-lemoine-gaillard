@@ -1,4 +1,5 @@
 open Decoder;
+open Session;
 
 let url_dev = "http://localhost:8080/";
 type state = {
