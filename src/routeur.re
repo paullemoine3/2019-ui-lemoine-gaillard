@@ -1,6 +1,9 @@
 type page =
   | Login
-  | Register;
+  | Register
+  | Score
+  | ErrorCo
+  | ErrorRegister;
 
 module Config = {
   type route = page;
@@ -8,12 +11,18 @@ module Config = {
     switch (url.path) {
     | ["login"] => Login
     | ["register"] => Register
+    | ["score"] => Score
+    | ["errorCo"] => ErrorCo
+    | ["errorRegister"] => ErrorRegister
     | _ => Login
     };
   let toUrl = route =>
     switch (route) {
     | Login => "/"
     | Register => "/register"
+    | Score => "/score"
+    | ErrorCo => "/errorCo"
+    | ErrorRegister => "/errorRegister"
     };
 };
 
@@ -45,6 +54,9 @@ let make = _children => {
       {switch (self.state.route) {
        | Login => <Login />
        | Register => <Register />
+       | Score => <Score />
+       | ErrorCo => <ErrorCo />
+       | ErrorRegister => <ErrorRegister />
        }}
       <a href="login"> {str("Login")} </a>
       <a href="register"> {str("register")} </a>

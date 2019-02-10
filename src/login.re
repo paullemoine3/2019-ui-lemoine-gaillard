@@ -1,3 +1,5 @@
+open Decoder;
+
 let url_dev = "http://localhost:8080/";
 type state = {
   email: string,
@@ -16,8 +18,9 @@ type action =
 
 let login = state => {
   let stateUser = Js.Dict.empty();
-  Js.Dict.set(stateUser, "email", Js.Json.string(state.email));
+
   Js.Dict.set(stateUser, "password", Js.Json.string(state.password));
+  Js.Dict.set(stateUser, "email", Js.Json.string(state.email));
   Js.Promise.(
     Fetch.fetchWithInit(
       url_dev ++ "api/v1/users/login",
@@ -33,8 +36,7 @@ let login = state => {
     )
     |> then_(Fetch.Response.json)
     |> then_(json =>
-         Json.Decode.{email: field("email", string, json), password: ""}
-         |> (user => Some(user) |> resolve)
+         json |> Decoder.decodeResponse |> (user => Some(user) |> resolve)
        )
   );
 };
@@ -60,17 +62,22 @@ let make = _children => {
                  | None => resolve(self.send(LoadUsersFailed))
                  }
                )
+            |> catch(_err => Js.Promise.resolve(self.send(LoadUsersFailed)))
             |> ignore
           ),
       )
-    | _ => ReasonReact.Update(state)
+    | LoadedUsers =>
+      ReasonReact.SideEffects(_ => ReasonReact.Router.push("score"))
+    | LoadUsersFailed =>
+      ReasonReact.SideEffects(_ => ReasonReact.Router.push("errorCo"))
+    | _ => ReasonReact.NoUpdate
     },
   render: _self =>
     <div>
       <h1> {ReasonReact.string("Page de login")} </h1>
       <form>
         <label>
-          {ReasonReact.string("Loginsss")}
+          {ReasonReact.string("Login")}
           <input
             type_="text"
             name="login"
@@ -99,7 +106,5 @@ let make = _children => {
       <button onClick={_ => _self.send({Login})}>
         {ReasonReact.string("connect")}
       </button>
-      <div> {ReasonReact.string(_self.state.email)} </div>
-      <div> {ReasonReact.string(_self.state.password)} </div>
     </div>,
 };
