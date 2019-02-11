@@ -25,10 +25,13 @@ let decodeProfile = json =>
     updatedAt: json |> field("updatedAt", string),
     deletedAt: json |> optional(field("deletedAt", string)),
   };
-let decodeResponse = json =>
-  Json.Decode.{
-    success: json |> field("success", bool),
-    token: json |> field("token", string),
-    profile: json |> field("profile", decodeProfile),
-    message: json |> field("message", string),
-  };
+let decodeResponse = json => {
+  let json =
+    Json.Decode.{
+      success: json |> field("success", bool),
+      token: json |> field("token", string),
+      profile: json |> field("profile", decodeProfile),
+      message: json |> field("message", string),
+    };
+  Session.saveTokenToStorage(json.token);
+};

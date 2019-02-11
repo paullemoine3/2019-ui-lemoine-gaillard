@@ -33,9 +33,10 @@ let register = state => {
       ),
     )
     |> then_(Fetch.Response.json)
-    |> then_(json =>
-         json |> Decoder.decodeResponse |> (user => Some(user) |> resolve)
-       )
+    |> then_(json => {
+         Js.log(json);
+         json |> Decoder.decodeResponse |> (user => Some(user) |> resolve);
+       })
   );
 };
 
