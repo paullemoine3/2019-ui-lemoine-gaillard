@@ -1,7 +1,7 @@
 open Decoder;
 open Session;
 
-[@bs.val] external url_dev: string = "process.env.BACK_URL";
+let url_dev: string = "http://localhost:8080";
 
 type state = {
   email: string,
