@@ -59,6 +59,7 @@ let make = _children => {
        | ErrorRegister => <ErrorRegister />
        }}
       <a href="login"> {str("Login")} </a>
+      <br />
       <a href="register"> {str("register")} </a>
     </div>,
 };

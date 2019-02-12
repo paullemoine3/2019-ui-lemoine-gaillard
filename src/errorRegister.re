@@ -12,7 +12,7 @@ let make = _children => {
   ...component,
   initialState: () => {
     errorTitle: "Page d'erreur lors de l'enregistrement",
-    error: "Une erreur est survenue : champ email ou password vide!",
+    error: "Une erreur est survenue lors de l'enregistrement de votre user.",
   },
   reducer: (action, state) =>
     switch (action) {
